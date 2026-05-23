@@ -62,18 +62,10 @@
             min-height: 100vh;
             font-size: 16px;
             line-height: 1.6;
-            -webkit-touch-callout: none;
-            /* iOS Safari */
-            -webkit-user-select: none;
-            /* Safari */
-            -khtml-user-select: none;
-            /* Konqueror HTML */
-            -moz-user-select: none;
-            /* Firefox */
-            -ms-user-select: none;
-            /* Internet Explorer/Edge */
-            user-select: none;
-            /* Non-prefixed version */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* Allow text selection for better UX on mobile/desktop */
+            user-select: text;
         }
 
         img {
@@ -1014,6 +1006,49 @@
                 max-width: 100%;
                 min-width: unset
             }
+
+            /* Touch-friendly card spacing and image sizing */
+            .b-card {
+                padding-bottom: 8px;
+            }
+
+            .b-img {
+                height: 160px;
+            }
+
+            .b-expand {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            /* Make detail panel a full-screen overlay on small devices */
+            .detail-panel {
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: 0;
+                border-radius: 0;
+                display: none;
+                z-index: 1200;
+                background: rgba(255, 255, 255, 0.98);
+                padding: 12px;
+            }
+
+            .detail-panel.show {
+                display: block;
+                overflow: auto;
+            }
+
+            .detail-img-col {
+                min-height: 220px;
+            }
+
+            .detail-info-col {
+                padding: 18px;
+            }
         }
     </style>
 </head>
@@ -1058,7 +1093,7 @@
             <div class="building-grid">
 
                 <!-- ตึก 1 -->
-                <div class="b-card" id="bc-1" onclick="toggleBuilding(1)">
+                <div class="b-card" id="bc-1" tabindex="0" onclick="toggleBuilding(1)">
                     <div class="b-head">
                         <div>
                             <div class="b-zone">CCTV Zone A</div>
@@ -1084,7 +1119,7 @@
                 </div>
 
                 <!-- ตึก 2 ชั้น 1 -->
-                <div class="b-card" id="bc-2" onclick="toggleBuilding(2)">
+                <div class="b-card" id="bc-2" tabindex="0" onclick="toggleBuilding(2)">
                     <div class="b-head">
                         <div>
                             <div class="b-zone">CCTV Zone B</div>
@@ -1110,7 +1145,7 @@
                 </div>
 
                 <!-- ตึก 2 ชั้น 2 -->
-                <div class="b-card" id="bc-3" onclick="toggleBuilding(3)">
+                <div class="b-card" id="bc-3" tabindex="0" onclick="toggleBuilding(3)">
                     <div class="b-head">
                         <div>
                             <div class="b-zone">CCTV Zone C</div>
@@ -2043,62 +2078,46 @@
         function toggleBuilding(n) {
             if (activeBuilding === n) { closeBuilding(n); return; }
             if (activeBuilding !== null) {
-                document.getElementById('bd-' + activeBuilding).classList.remove('show');
-                document.getElementById('bc-' + activeBuilding).classList.remove('active');
+                const prevPanel = document.getElementById('bd-' + activeBuilding);
+                const prevCard = document.getElementById('bc-' + activeBuilding);
+                if (prevPanel) prevPanel.classList.remove('show');
+                if (prevCard) prevCard.classList.remove('active');
             }
             activeBuilding = n;
             const card = document.getElementById('bc-' + n);
             const panel = document.getElementById('bd-' + n);
-            card.classList.add('active');
-            panel.classList.add('show');
-            setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+            if (card) card.classList.add('active');
+            if (panel) panel.classList.add('show');
+            setTimeout(() => panel && panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
         }
 
         function closeBuilding(n) {
-            document.getElementById('bd-' + n).classList.remove('show');
-            document.getElementById('bc-' + n).classList.remove('active');
+            const panel = document.getElementById('bd-' + n);
+            const card = document.getElementById('bc-' + n);
+            if (panel) panel.classList.remove('show');
+            if (card) card.classList.remove('active');
             activeBuilding = null;
         }
-        (function () {
-            // 1. ดักจับและบล็อกการคลิกขวา (Context Menu)
-            document.addEventListener('contextmenu', (e) => e.preventDefault(), { capture: true });
 
-            // 2. ดักจับและบล็อกการลากไฮไลท์ คัดลอก และตัดข้อความ
-            const blockEvents = ['selectstart', 'copy', 'cut', 'dragstart'];
-            blockEvents.forEach(event => {
-                document.addEventListener(event, (e) => e.preventDefault(), { capture: true });
-            });
+        // Accessibility: keyboard support and safe defaults
+        document.addEventListener('keydown', (e) => {
+            // Close detail with Escape
+            if (e.key === 'Escape' && activeBuilding !== null) {
+                closeBuilding(activeBuilding);
+                return;
+            }
+            // Activate focused building card with Enter or Space
+            if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList.contains('b-card')) {
+                e.preventDefault();
+                const id = document.activeElement.id;
+                if (id && id.startsWith('bc-')) {
+                    const n = Number(id.split('-')[1]);
+                    toggleBuilding(n);
+                }
+            }
+        });
 
-            // 3. บล็อกคีย์ลัดระดับเทพ (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U, Ctrl+S)
-            document.addEventListener('keydown', (e) => {
-                // บล็อก F12
-                if (e.key === 'F12') {
-                    e.preventDefault();
-                    return false;
-                }
-                // บล็อก Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (เปิด DevTools)
-                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
-                    e.preventDefault();
-                    return false;
-                }
-                // บล็อก Ctrl+U (ดู Source Code) และ Ctrl+S (เซฟหน้าเว็บ)
-                if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'U' || e.key === 'S')) {
-                    e.preventDefault();
-                    return false;
-                }
-                // บล็อก Mac Users (Cmd+Alt+I, Cmd+Alt+J, Cmd+U)
-                if (e.metaKey && e.altKey && (e.key === 'i' || e.key === 'j')) {
-                    e.preventDefault();
-                    return false;
-                }
-            }, { capture: true });
-
-            // 4. เทคนิคขั้นสูง: ดักจับการพยายามเปิด Console ด้วย Debugger loop (Anti-DevTools)
-            // ถ้านักพัฒนาเปิด Console ขึ้นมา หน้าจอจะติด Loop debugger ทันทีจนเว็บค้าง ทำอะไรต่อไม่ได้
-            setInterval(function () {
-                (function () { }).constructor("debugger")();
-            }, 100);
-        })();
+        // Improve touch interactions: make expand button larger on touch devices via CSS; keep default browser behaviors (no aggressive blocking)
     </script>
 
 </body>
