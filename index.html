@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCTV & Data Permissions — Happy Creator Co.,Ltd.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #f4f5f7;
+            --surface: #ffffff;
+            --surface2: #f8f9fb;
+            --border: #e2e5ea;
+            --border2: #d0d4db;
+            --text: #0f1117;
+            --text2: #4a5160;
+            --text3: #8a93a2;
+            --indigo: #5046e4;
+            --indigo-light: #eeedfe;
+            --indigo-mid: #7f77dd;
+            --purple: #7c3aed;
+            --purple-light: #f3f0ff;
+            --blue: #1a6bc4;
+            --blue-light: #e8f0fd;
+            --amber: #b45309;
+            --amber-light: #fef3c7;
+            --rose: #be123c;
+            --rose-light: #fff0f3;
+            --green: #15803d;
+            --green-light: #f0fdf4;
+            --teal: #0f766e;
+            --teal-light: #f0fdfa;
+            --r-lg: 16px;
+            --r-xl: 24px;
+            --r-2xl: 32px;
+            --shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 4px 16px rgba(0, 0, 0, .06);
+            --shadow-lg: 0 4px 24px rgba(0, 0, 0, .10), 0 8px 40px rgba(0, 0, 0, .08);
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version */
+        }
+
+        img {
+            display: block;
+            max-width: 100%
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 48px 32px
+        }
+
+        /* ===== HEADER ===== */
+        .page-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 40px;
+            border-bottom: 1.5px solid var(--border);
+            margin-bottom: 56px;
+        }
+
+        .header-left {
+            flex: 1;
+            min-width: 280px
+        }
+
+        .page-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--indigo-light);
+            color: var(--indigo);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: clamp(26px, 4vw, 44px);
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 12px
+        }
+
+        .page-desc {
+            font-size: 16px;
+            color: var(--text2);
+            margin-bottom: 20px;
+            max-width: 520px
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid;
+        }
+
+        .leg-all {
+            background: #1a1a2e;
+            color: #a5b4fc;
+            border-color: #312e81
+        }
+
+        .leg-pub {
+            background: var(--blue-light);
+            color: var(--blue);
+            border-color: #bcd1f5
+        }
+
+        .leg-dept {
+            background: var(--amber-light);
+            color: var(--amber);
+            border-color: #fcd34d
+        }
+
+        .leg-sec {
+            background: var(--rose-light);
+            color: var(--rose);
+            border-color: #fda4af
+        }
+
+        .leg-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0
+        }
+
+        /* ===== SUPER ADMIN CARDS ===== */
+        .super-admin-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 320px;
+            max-width: 500px
+        }
+
+        .sa-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            border-radius: var(--r-xl);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sa-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(-45deg, rgba(255, 255, 255, .03) 0, rgba(255, 255, 255, .03) 1px, transparent 1px, transparent 8px);
+        }
+
+        .sa-1 {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e)
+        }
+
+        .sa-2 {
+            background: linear-gradient(135deg, #1a1a2e, #4a1c80, #6b21a8)
+        }
+
+        .sa-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sa-body {
+            position: relative;
+            z-index: 1
+        }
+
+        .sa-role {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 4px
+        }
+
+        .sa-1 .sa-role {
+            color: #a5b4fc
+        }
+
+        .sa-2 .sa-role {
+            color: #d8b4fe
+        }
+
+        .sa-email {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px
+        }
+
+        .sa-note {
+            font-size: 13px;
+            color: rgba(255, 255, 255, .6)
+        }
+
+        .sa-note strong {
+            color: #a5b4fc
+        }
+
+        .sa-2 .sa-note strong {
+            color: #d8b4fe
+        }
+
+        .sa-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(74, 222, 128, .15);
+            color: #4ade80;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: auto;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .live-pulse {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 1.4s ease-in-out infinite
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px
+        }
+
+        .section-head-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border)
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+            white-space: nowrap
+        }
+
+        .section-sub {
+            font-size: 14px;
+            color: var(--text3);
+            margin-top: 4px;
+            margin-bottom: 28px
+        }
+
+        /* ===== CCTV ZONE SECTION ===== */
+        .cctv-section {
+            margin-bottom: 72px
+        }
+
+        .building-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 0
+        }
+
+        .b-card {
+            border-radius: var(--r-xl);
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform .2s, border-color .2s, box-shadow .2s;
+        }
+
+        .b-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--indigo-mid);
+            box-shadow: var(--shadow-lg)
+        }
+
+        .b-card.active {
+            border-color: var(--indigo);
+            border-width: 2px
+        }
+
+        .b-head {
+            padding: 16px 20px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .b-zone {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--indigo);
+            margin-bottom: 5px;
+        }
+
+        .b-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.2
+        }
+
+        .b-sub {
+            font-size: 13px;
+            color: var(--text3);
+            margin-top: 2px
+        }
+
+        .b-cam-count {
+            background: var(--indigo-light);
+            color: var(--indigo);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            flex-shrink: 0;
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .b-img {
+            position: relative;
+            height: 190px;
+            overflow: hidden;
+            background: #f0f1f3;
+        }
+
+        .b-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: left top;
+            transition: transform .35s
+        }
+
+        .b-card:hover .b-img img {
+            transform: scale(1.05)
+        }
+
+        .b-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 17, 23, .35) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        .b-live-badge {
+            position: absolute;
+            bottom: 10px;
+            left: 12px;
+            background: rgba(15, 17, 23, .75);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            backdrop-filter: blur(4px);
+        }
+
+        .b-expand {
+            position: absolute;
+            bottom: 10px;
+            right: 12px;
+            background: rgba(255, 255, 255, .18);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: background .2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .b-card:hover .b-expand {
+            background: rgba(255, 255, 255, .3)
+        }
+
+        .b-card.active .b-expand {
+            background: var(--indigo);
+            transform: rotate(45deg)
+        }
+
+        .b-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border)
+        }
+
+        .tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+        }
+
+        .tag-p {
+            background: var(--rose-light);
+            color: var(--rose);
+            border-color: #fda4af
+        }
+
+        .tag-a {
+            background: var(--amber-light);
+            color: var(--amber);
+            border-color: #fcd34d
+        }
+
+        .tag-g {
+            background: var(--green-light);
+            color: var(--green);
+            border-color: #86efac
+        }
+
+        .tag-v {
+            background: var(--indigo-light);
+            color: var(--indigo);
+            border-color: #c4b5fd
+        }
+
+        .tag-b {
+            background: var(--blue-light);
+            color: var(--blue);
+            border-color: #93c5fd
+        }
+
+        .tag-n {
+            background: #f1f2f4;
+            color: #4a5160;
+            border-color: #d0d4db
+        }
+
+        .tag-t {
+            background: var(--teal-light);
+            color: var(--teal);
+            border-color: #5eead4
+        }
+
+        /* ===== DETAIL PANEL ===== */
+        .detail-panel {
+            display: none;
+            margin-top: 16px;
+            border-radius: var(--r-xl);
+            border: 1.5px solid var(--indigo);
+            background: var(--surface);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .detail-panel.show {
+            display: block;
+            animation: slideDown .25s ease
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr
+        }
+
+        .detail-img-col {
+            position: relative;
+            min-height: 360px;
+            overflow: hidden;
+            background: #f0f1f3;
+            border-right: 1px solid var(--border);
+        }
+
+        .detail-img-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center
+        }
+
+        .detail-info-col {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px
+        }
+
+        .d-building {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text)
+        }
+
+        .d-sub {
+            font-size: 13px;
+            color: var(--text3);
+            margin-top: 2px
+        }
+
+        .d-stat {
+            background: var(--indigo-light);
+            border-radius: 12px;
+            padding: 14px 18px
+        }
+
+        .d-stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--indigo);
+            margin-bottom: 4px
+        }
+
+        .d-stat-val {
+            font-size: 38px;
+            font-weight: 900;
+            color: var(--indigo);
+            line-height: 1
+        }
+
+        .d-stat-unit {
+            font-size: 14px;
+            color: var(--text2)
+        }
+
+        .d-rooms-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 10px
+        }
+
+        .d-room-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            flex: 1
+        }
+
+        .d-room-row {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .d-room-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0
+        }
+
+        .d-room-name {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 500
+        }
+
+        .d-access {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid #86efac;
+            margin-top: auto;
+        }
+
+        .detail-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text2);
+            transition: background .18s;
+            z-index: 5;
+        }
+
+        .detail-close:hover {
+            background: var(--rose-light);
+            color: var(--rose)
+        }
+
+        /* ===== MANAGER SECTION ===== */
+        .managers-section {
+            margin-bottom: 72px
+        }
+
+        .mgr-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px
+        }
+
+        .mgr-card {
+            border-radius: var(--r-xl);
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform .18s, box-shadow .18s, border-color .18s;
+        }
+
+        .mgr-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border2)
+        }
+
+        .mgr-head {
+            background: #0f1117;
+            color: #fff;
+            padding: 18px 20px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mgr-head-row {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .mgr-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .mgr-email {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2
+        }
+
+        .mgr-role {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .5);
+            margin-top: 2px
+        }
+
+        .mgr-cctv {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .mgr-cctv-pub {
+            background: rgba(59, 130, 246, .2);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, .3)
+        }
+
+        .mgr-cctv-sec {
+            background: rgba(190, 18, 60, .2);
+            color: #fca5a5;
+            border: 1px solid rgba(190, 18, 60, .3)
+        }
+
+        .mgr-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+            background: var(--surface2)
+        }
+
+        .dept-row {
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dept-row-highlight {
+            border-left: 3px solid var(--indigo)
+        }
+
+        .dept-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 3px
+        }
+
+        .dept-name-indigo {
+            color: #4338ca
+        }
+
+        .dept-accounts {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text3)
+        }
+
+        .dept-badge-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end
+        }
+
+        .dept-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 8px;
+            border: 1px solid;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .db-pub {
+            background: var(--blue-light);
+            color: var(--blue);
+            border-color: #bcd1f5
+        }
+
+        .db-dept {
+            background: var(--amber-light);
+            color: var(--amber);
+            border-color: #fcd34d
+        }
+
+        .db-sec {
+            background: var(--rose-light);
+            color: var(--rose);
+            border-color: #fda4af
+        }
+
+        .db-block {
+            background: #f1f2f4;
+            color: #8a93a2;
+            border-color: var(--border)
+        }
+
+        .dept-file-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--indigo-light);
+            color: var(--indigo);
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid #c4b5fd;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .dept-hl-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .dept-hl-safe {
+            background: var(--rose-light);
+            color: var(--rose);
+            border-color: #fda4af
+        }
+
+        .dept-hl-wh {
+            background: var(--rose-light);
+            color: var(--rose);
+            border-color: #fda4af
+        }
+
+        .dept-hl-srv {
+            background: var(--rose-light);
+            color: var(--rose);
+            border-color: #fda4af
+        }
+
+        .dept-hl-shop {
+            background: var(--blue-light);
+            color: var(--blue);
+            border-color: #bcd1f5
+        }
+
+        .cctv-count {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text3);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .35
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            margin-top: 56px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-brand {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text2)
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: var(--text3)
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:900px) {
+
+            .building-grid,
+            .mgr-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr
+            }
+
+            .detail-img-col {
+                min-height: 220px;
+                border-right: none;
+                border-bottom: 1px solid var(--border)
+            }
+        }
+
+        @media(max-width:600px) {
+            .container {
+                padding: 24px 16px
+            }
+
+            .building-grid,
+            .mgr-grid {
+                grid-template-columns: 1fr
+            }
+
+            .page-header {
+                flex-direction: column
+            }
+
+            .super-admin-wrap {
+                max-width: 100%;
+                min-width: unset
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ===== PAGE HEADER ===== -->
+        <header class="page-header">
+            <div class="header-left">
+                <div class="page-eyebrow">
+                    <span class="live-pulse" style="background:#a5b4fc"></span>
+                    Happy Creator Co.,Ltd.
+                </div>
+                <h1 class="page-title">🏢 CCTV &amp; Data Permissions</h1>
+                <p class="page-desc">ผังกำหนดสิทธิ์การเข้าถึงไฟล์ระบบและสิทธิ์การดูกล้องวงจรปิดแยกตามรายบัญชี</p>
+                <!-- <div class="legend">
+          <span class="legend-item leg-all"><span class="leg-dot" style="background:#a5b4fc"></span>ดูกล้องได้ทุกตัว
+            100%</span>
+          <span class="legend-item leg-pub"><span class="leg-dot"
+              style="background:#60a5fa"></span>พื้นที่ส่วนกลาง</span>
+          <span class="legend-item leg-dept"><span class="leg-dot"
+              style="background:#fbbf24"></span>เฉพาะภายในแผนกตนเอง</span>
+          <span class="legend-item leg-sec"><span class="leg-dot"
+              style="background:#fb7185"></span>โซนความมั่นคงสูง/การเงิน</span>
+        </div> -->
+            </div>
+
+
+        </header>
+
+        <!-- ===== CCTV ZONE SECTION ===== -->
+        <section class="cctv-section">
+            <div class="section-head">
+                <h2 class="section-title">📹 Super Admin CCTV Coverage — ทุกกล้องในทุกอาคาร</h2>
+                <div class="section-head-line"></div>
+            </div>
+            <p class="section-sub">บัญชี Super Admin ทั้ง 2 มีสิทธิ์ดูกล้องครอบคลุม 100% ทุกจุด ทั้ง 3 ผังอาคาร &mdash;
+                คลิกที่อาคารเพื่อดูรายละเอียด</p>
+
+            <div class="building-grid">
+
+                <!-- ตึก 1 -->
+                <div class="b-card" id="bc-1" onclick="toggleBuilding(1)">
+                    <div class="b-head">
+                        <div>
+                            <div class="b-zone">CCTV Zone A</div>
+                            <div class="b-name">ตึก 1</div>
+                            <div class="b-sub">Building 1 — ทุกจุดภายในอาคาร</div>
+                        </div>
+                        <div class="b-cam-count"><span class="live-pulse" style="background:#4ade80"></span>32 จุด</div>
+                    </div>
+                    <div class="b-img">
+                        <img src="https://img1.pic.in.th/images/1186c6f66136b0247.png" alt="ผังตึก 1">
+                        <div class="b-overlay"></div>
+                        <div class="b-live-badge"><span class="live-pulse"></span>Live</div>
+                        <div class="b-expand" aria-hidden="true">＋</div>
+                    </div>
+                    <div class="b-tags">
+                        <span class="tag tag-p">CEO Room</span>
+                        <span class="tag tag-a">Work 1, 2</span>
+                        <span class="tag tag-g">Storage 1</span>
+                        <span class="tag tag-v">Warehouse 1</span>
+                        <span class="tag tag-b">Logistic</span>
+                        <span class="tag tag-n">Packing</span>
+                    </div>
+                </div>
+
+                <!-- ตึก 2 ชั้น 1 -->
+                <div class="b-card" id="bc-2" onclick="toggleBuilding(2)">
+                    <div class="b-head">
+                        <div>
+                            <div class="b-zone">CCTV Zone B</div>
+                            <div class="b-name">ตึก 2 — ชั้น 1</div>
+                            <div class="b-sub">Building 2 / 1st Floor</div>
+                        </div>
+                        <div class="b-cam-count"><span class="live-pulse" style="background:#4ade80"></span>8 จุด</div>
+                    </div>
+                    <div class="b-img">
+                        <img src="https://img2.pic.in.th/2dd04b73c87d81e3f.png" alt="ผังตึก 2 ชั้น 1">
+                        <div class="b-overlay"></div>
+                        <div class="b-live-badge"><span class="live-pulse"></span>Live</div>
+                        <div class="b-expand" aria-hidden="true">＋</div>
+                    </div>
+                    <div class="b-tags">
+                        <span class="tag tag-n">Kitchen</span>
+                        <span class="tag tag-g">Storage 1</span>
+                        <span class="tag tag-v">Warehouse 1</span>
+                        <span class="tag tag-a">Parking</span>
+                        <span class="tag tag-t">Toilet</span>
+                        <span class="tag tag-b">Living Room</span>
+                    </div>
+                </div>
+
+                <!-- ตึก 2 ชั้น 2 -->
+                <div class="b-card" id="bc-3" onclick="toggleBuilding(3)">
+                    <div class="b-head">
+                        <div>
+                            <div class="b-zone">CCTV Zone C</div>
+                            <div class="b-name">ตึก 2 — ชั้น 2</div>
+                            <div class="b-sub">Building 2 / 2nd Floor</div>
+                        </div>
+                        <div class="b-cam-count"><span class="live-pulse" style="background:#4ade80"></span>16 จุด</div>
+                    </div>
+                    <div class="b-img">
+                        <img src="https://img1.pic.in.th/images/3696b60ae0b85056b.png" alt="ผังตึก 2 ชั้น 2">
+                        <div class="b-overlay"></div>
+                        <div class="b-live-badge"><span class="live-pulse"></span>Live</div>
+                        <div class="b-expand" aria-hidden="true">＋</div>
+                    </div>
+                    <div class="b-tags">
+                        <span class="tag tag-a">Work 1–4</span>
+                        <span class="tag tag-g">Meeting 1, 2</span>
+                        <span class="tag tag-v">Room 1, 2</span>
+                        <span class="tag tag-t">Storage 2</span>
+                        <span class="tag tag-b">Toilets ×4</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Detail Panel 1 -->
+            <div class="detail-panel" id="bd-1">
+                <div class="detail-close" onclick="closeBuilding(1)">✕</div>
+                <div class="detail-grid">
+                    <div class="detail-img-col"><img src="https://img1.pic.in.th/images/1186c6f66136b0247.png"
+                            alt="แผนผังตึก 1 ขยาย"></div>
+                    <div class="detail-info-col">
+                        <div>
+                            <div class="d-building">ตึก 1</div>
+                            <div class="d-sub">Building 1 — แฮปปี้ครีเอเตอร์ จำกัด</div>
+                        </div>
+                        <div class="d-stat">
+                            <div class="d-stat-label">กล้อง CCTV ทั้งหมด</div>
+                            <div class="d-stat-val">32 <span class="d-stat-unit">จุดติดตั้ง</span></div>
+                        </div>
+                        <div>
+                            <div class="d-rooms-label">ห้องที่ครอบคลุม</div>
+                            <div class="d-room-list">
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#d4537e"></span><span
+                                        class="d-room-name">CEO Room</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#ba7517"></span><span
+                                        class="d-room-name">Work 1, Work 2 (ห้องทำงาน)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#639922"></span><span
+                                        class="d-room-name">Storage Room 1 (ห้องเก็บของ)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#7f77dd"></span><span
+                                        class="d-room-name">Warehouse 1 (คลัง 1)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#378add"></span><span
+                                        class="d-room-name">Logistic Room (ห้องส่งของ)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#888780"></span><span
+                                        class="d-room-name">Packing Room (ห้องแพ็คสินค้า)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail Panel 2 -->
+            <div class="detail-panel" id="bd-2">
+                <div class="detail-close" onclick="closeBuilding(2)">✕</div>
+                <div class="detail-grid">
+                    <div class="detail-img-col"><img src="https://img2.pic.in.th/2dd04b73c87d81e3f.png"
+                            alt="แผนผังตึก 2 ชั้น 1 ขยาย"></div>
+                    <div class="detail-info-col">
+                        <div>
+                            <div class="d-building">ตึก 2 — ชั้น 1</div>
+                            <div class="d-sub">Building 2 / 1st Floor</div>
+                        </div>
+                        <div class="d-stat">
+                            <div class="d-stat-label">กล้อง CCTV ทั้งหมด</div>
+                            <div class="d-stat-val">8 <span class="d-stat-unit">จุดติดตั้ง</span></div>
+                        </div>
+                        <div>
+                            <div class="d-rooms-label">ห้องที่ครอบคลุม</div>
+                            <div class="d-room-list">
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#888780"></span><span
+                                        class="d-room-name">Kitchen (ห้องครัว)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#639922"></span><span
+                                        class="d-room-name">Storage Room 1 (ห้องเก็บของ)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#7f77dd"></span><span
+                                        class="d-room-name">Warehouse 1 (คลัง 1)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#ba7517"></span><span
+                                        class="d-room-name">Parking (ที่จอดรถ)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#1d9e75"></span><span
+                                        class="d-room-name">Toilet (ห้องน้ำ)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#378add"></span><span
+                                        class="d-room-name">Living Room (ห้องรับแขก)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail Panel 3 -->
+            <div class="detail-panel" id="bd-3">
+                <div class="detail-close" onclick="closeBuilding(3)">✕</div>
+                <div class="detail-grid">
+                    <div class="detail-img-col"><img src="https://img1.pic.in.th/images/3696b60ae0b85056b.png"
+                            alt="แผนผังตึก 2 ชั้น 2 ขยาย"></div>
+                    <div class="detail-info-col">
+                        <div>
+                            <div class="d-building">ตึก 2 — ชั้น 2</div>
+                            <div class="d-sub">Building 2 / 2nd Floor</div>
+                        </div>
+                        <div class="d-stat">
+                            <div class="d-stat-label">กล้อง CCTV ทั้งหมด</div>
+                            <div class="d-stat-val">16 <span class="d-stat-unit">จุดติดตั้ง</span></div>
+                        </div>
+                        <div>
+                            <div class="d-rooms-label">ห้องที่ครอบคลุม</div>
+                            <div class="d-room-list">
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#ba7517"></span><span
+                                        class="d-room-name">Work 1, 2, 3, 4 (ห้องทำงาน)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#639922"></span><span
+                                        class="d-room-name">Meeting Room 1, 2 (ห้องประชุม)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#7f77dd"></span><span
+                                        class="d-room-name">Room 1, 2 (ห้อง 1, 2)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#1d9e75"></span><span
+                                        class="d-room-name">Storage Room 2 (ห้องเก็บของ 2)</span></div>
+                                <div class="d-room-row"><span class="d-room-dot" style="background:#378add"></span><span
+                                        class="d-room-name">Toilet ×4 (ห้องน้ำ)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CCTV MANAGERS SECTION ===== -->
+        <section class="cctv-section">
+            <div class="section-head">
+                <h2 class="section-title">👔 สิทธิ์และอีเมล์หลักการถือครองกล้องวงจรปิดการแชร์สิทธิ์</h2>
+                <div class="section-head-line"></div>
+            </div>
+            <p class="section-sub">ผู้จัดการแต่ละคนมีสิทธิ์ดูกล้องเฉพาะโซนที่รับผิดชอบ</p>
+
+            <div class="mgr-grid">
+
+                <!-- CEOHC@HC-TH.COM -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">CEOCCTV@HC-TH.COM</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง CEO</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง บัญชี HC</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง บัญชี HIEND</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง ประชุมใหญ่</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง ประชุมเล็ก</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ITCCTV@HC-TH.COM -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">ITCCTV@HC-TH.COM <br> ( ตึก 1 )</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 1</div>
+                            </div>
+                            <div class="cctv-count">(4 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 2</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง เก็บของ</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้องส่งของ</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้องแพ็คของ</div>
+                            </div>
+                            <div class="cctv-count">(5 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ทางเดิน</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">กล้องหน้าบริษัท</div>
+                            </div>
+                            <div class="cctv-count">(3 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">กล้องข้างบริษัท</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">ITCCTV@HC-TH.COM <br> ( ตึก 2 ชั้น 1 )</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง ที่จอดรถ</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง รับแขก</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง ครัว</div>
+                            </div>
+                            <div class="cctv-count">(4 ตัว)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">ITCCTV@HC-TH.COM <br> ( ตึก 2 ชั้น 2 )</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 1</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 2</div>
+                            </div>
+                            <div class="cctv-count">(3 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 4</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง เก็บของ 2</div>
+                            </div>
+                            <div class="cctv-count">(1 ตัว)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">ITCCTV@HC-TH.COM <br> (คลังสินค้า HC)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 1</div>
+                            </div>
+                            <div class="cctv-count">(8 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 2</div>
+                            </div>
+                            <div class="cctv-count">(6 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 3</div>
+                            </div>
+                            <div class="cctv-count">(4 ตัว)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">ITCCTV@HC-TH.COM<br>(ร้านไอเฮ็นชา)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">สาขาแฟรี่</div>
+                            </div>
+                            <div class="cctv-count">(4 ตัว)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">I2S@HC-TH.COM (I2S)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ROOM 1</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ROOM 2</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ROOM 3</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้องสนุกเกอร์</div>
+                            </div>
+                            <div class="cctv-count">(2 ตัว)</div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!--สิทธิ์และอีเมล์ถือครองกล้องวงจรปิด -->
+        <section class="cctv-section">
+            <div class="section-head">
+                <h2 class="section-title">👔เมล์หลัก ITCCTV@HC-TH.COM เป้าหมายการรับสิทธิ์และอีเมล์ถือครองกล้องวงจรปิด
+                    <br>ให้กับ ผจก. คือผู้รับสิทธิ์ในการดูกล้องวงจรปิดแต่ละโซน
+                </h2>
+                <div class="section-head-line"></div>
+            </div>
+            <p class="section-sub">ผู้จัดการแต่ละคนมีสิทธิ์ดูกล้องเฉพาะโซนที่รับผิดชอบ</p>
+
+            <div class="mgr-grid">
+
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG01@HC-TH.COM<br>ผู้จัดการทั่วไป</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 1 ( ตึก 1 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(4 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-block">Head: บล็อก</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง เก็บของ (ตึก 1)</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(2 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง เก็บของ (ตึก 2)</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(2 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-block">Head: บล็อก</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้องส่งของ (ตึก 1 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(2 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้องแพ็คของ (ตึก 1 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(5 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 1</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(8 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 2</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(6 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 3</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(4 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ITCCTV@HC-TH.COM -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG02@HC-TH.COM <br>ผจก.บัญชี / การเงิน</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 3 ( ตึก 2 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(2 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG03@HC-TH.COM <br>ผจก.การตลาด</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 2 ( ตึก 1 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">( 2 ตัว )</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG04@HC-TH.COM <br>ผจก.โฆษณาและสื่อ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 1 ( ตึก 2 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">( 2 ตัว )</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-block">Head: บล็อก</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง WORK 2 ( ตึก 2 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(3 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-block">Head: บล็อก</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">ห้อง ห้องเก็บของ 2 ( ตึก 2 )</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(3 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG05@HC-TH.COM <br>ผจก.จัดซื้อ / PD</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 1</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(8 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 2</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(6 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">คลังสินค้า 3</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">(4 ตัว)</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG06@HC-TH.COM <br>ผจก.IT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="mgr-body">
+            <div class="dept-row">
+              <div>
+                <div class="dept-name">ROOM 1</div>
+              </div>
+              <div class="dept-badge-wrap">
+                <div class="cctv-count">(2 ตัว)</div>
+                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                <span class="dept-badge db-dept">Head: ดูได้</span>
+              </div>
+            </div>
+            <div class="dept-row">
+              <div>
+                <div class="dept-name">ROOM 2</div>
+              </div>
+              <div class="dept-badge-wrap">
+                <div class="cctv-count">(2 ตัว)</div>
+                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                <span class="dept-badge db-dept">Head: ดูได้</span>
+              </div>
+            </div>
+            <div class="dept-row">
+              <div>
+                <div class="dept-name">ROOM 3</div>
+              </div>
+              <div class="dept-badge-wrap">
+                <div class="cctv-count">(2 ตัว)</div>
+                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                <span class="dept-badge db-dept">Head: ดูได้</span>
+              </div>
+            </div>
+            <div class="dept-row">
+              <div>
+                <div class="dept-name">ห้องสนุกเกอร์</div>
+              </div>
+              <div class="dept-badge-wrap">
+                <div class="cctv-count">(2 ตัว)</div>
+                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                <span class="dept-badge db-dept">Head: ดูได้</span>
+              </div>
+            </div> -->
+                </div>
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG07@HC-TH.COM <br>ผจก.HIENDCHA</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">สาขาแฟรี่ขอนแก่น</div>
+                            </div>
+                            <div class="dept-badge-wrap">
+                                <div class="cctv-count">( 4 ตัว )</div>
+                                <span class="dept-badge db-pub">ผจก: ดูได้</span>
+                                <span class="dept-badge db-dept">Head: ดูได้</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </section>
+
+        <!-- ===== MANAGERS SECTION ===== -->
+        <section class="managers-section">
+            <div class="section-head">
+                <h2 class="section-title">👔 สิทธิ์ผู้จัดการ — อีเมล์แยกตามแผนก</h2>
+                <div class="section-head-line"></div>
+            </div>
+            <p class="section-sub">ผู้จัดการแต่ละคนมีสิทธิ์ดูกล้องเฉพาะโซนที่รับผิดชอบ</p>
+
+            <div class="mgr-grid">
+
+                <!-- MG01 -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG01@HC-TH.COM</div>
+                                <div class="mgr-role">ผจก. บริหารทั่วไป</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก ขาย ( SD01@HC-TH.COM )</div>
+                                <div class="dept-accounts">Head: SD01@ &nbsp;|&nbsp; Staff: SD02@–05@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก ธุรการ ( CO01@HC-TH.COM )</div>
+                                <div class="dept-accounts">Head: Co01@ &nbsp;|&nbsp; Staff: Co02@–05@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก QC ( QC01@HC-TH.COM )</div>
+                                <div class="dept-accounts">Head: QC01@ &nbsp;|&nbsp; Staff: QC02@–05@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก คีย์ระบบ ( DC01@HC-TH.COM )</div>
+                                <div class="dept-accounts">Head: DC01@ &nbsp;|&nbsp; Staff: DC02@–05@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row ">
+                            <div>
+                                <div class="dept-name">แผนก แอดมิน ( AM01@HC-TH.COM )</div>
+                                <div class="dept-accounts">Head: AM01@ &nbsp;|&nbsp; Staff: AM02@–05@</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MG02 -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG02@HC-TH.COM</div>
+                                <div class="mgr-role">ผจก. บัญชี / การเงิน</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก บัญชี (AC1@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: AC1@ &nbsp;|&nbsp; Staff: AC02@–04@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก การเงิน (ACM01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: ACM1@ &nbsp;|&nbsp; Staff: ACM2@–03@</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MG03 -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG03@HC-TH.COM</div>
+                                <div class="mgr-role">ผจก. การตลาด</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก การตลาด (MK01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: MK01@ &nbsp;|&nbsp; Staff: MK02@–06@</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MG04 -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG04@HC-TH.COM</div>
+                                <div class="mgr-role">ผจก. โฆษณาและสื่อ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก โสต (TEC01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: TEC01@ &nbsp;|&nbsp; Staff: TEC02@–05@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก CG (CG01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: CG01@ &nbsp;|&nbsp; Staff: CG02@–05@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก ตัดต่อ (EDT01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: EDT01@ &nbsp;|&nbsp; Staff: EDT02@–04@</div>
+                            </div>
+                        </div>
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก Producer (PRO01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: PRO01@ &nbsp;|&nbsp; Staff: PRO02@–05@</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MG05 -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG05@HC-TH.COM</div>
+                                <div class="mgr-role">ผจก. PD</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก จัดซื้อ (PD01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: PD01@ &nbsp;|&nbsp; Staff: PD02@–04@</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MG06 -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG06@HC-TH.COM</div>
+                                <div class="mgr-role">ผจก. IT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก IT (IT01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: IT01@ &nbsp;|&nbsp; Staff: IT02@–05@</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MG07 -->
+                <div class="mgr-card">
+                    <div class="mgr-head">
+                        <div class="mgr-head-row">
+                            <div class="mgr-icon">👔</div>
+                            <div>
+                                <div class="mgr-email">MG07@HC-TH.COM</div>
+                                <div class="mgr-role">ผจก. Hiendcha</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgr-body">
+                        <div class="dept-row">
+                            <div>
+                                <div class="dept-name">แผนก Hiendcha (HEC01@HC-TH.COM)</div>
+                                <div class="dept-accounts">Head: HEC01@ &nbsp;|&nbsp; Staff: HEC02@–05@</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="page-footer">
+            <div class="footer-brand">🏢 Happy Creator Co.,Ltd. — CCTV &amp; Data Permissions</div>
+            <div class="footer-note">เอกสารนี้เป็นความลับของบริษัท — ห้ามเผยแพร่</div>
+        </footer>
+
+    </div>
+
+    <script>
+        let activeBuilding = null;
+
+        function toggleBuilding(n) {
+            if (activeBuilding === n) { closeBuilding(n); return; }
+            if (activeBuilding !== null) {
+                document.getElementById('bd-' + activeBuilding).classList.remove('show');
+                document.getElementById('bc-' + activeBuilding).classList.remove('active');
+            }
+            activeBuilding = n;
+            const card = document.getElementById('bc-' + n);
+            const panel = document.getElementById('bd-' + n);
+            card.classList.add('active');
+            panel.classList.add('show');
+            setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+        }
+
+        function closeBuilding(n) {
+            document.getElementById('bd-' + n).classList.remove('show');
+            document.getElementById('bc-' + n).classList.remove('active');
+            activeBuilding = null;
+        }
+        (function () {
+            // 1. ดักจับและบล็อกการคลิกขวา (Context Menu)
+            document.addEventListener('contextmenu', (e) => e.preventDefault(), { capture: true });
+
+            // 2. ดักจับและบล็อกการลากไฮไลท์ คัดลอก และตัดข้อความ
+            const blockEvents = ['selectstart', 'copy', 'cut', 'dragstart'];
+            blockEvents.forEach(event => {
+                document.addEventListener(event, (e) => e.preventDefault(), { capture: true });
+            });
+
+            // 3. บล็อกคีย์ลัดระดับเทพ (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U, Ctrl+S)
+            document.addEventListener('keydown', (e) => {
+                // บล็อก F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    return false;
+                }
+                // บล็อก Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (เปิด DevTools)
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+                    e.preventDefault();
+                    return false;
+                }
+                // บล็อก Ctrl+U (ดู Source Code) และ Ctrl+S (เซฟหน้าเว็บ)
+                if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'U' || e.key === 'S')) {
+                    e.preventDefault();
+                    return false;
+                }
+                // บล็อก Mac Users (Cmd+Alt+I, Cmd+Alt+J, Cmd+U)
+                if (e.metaKey && e.altKey && (e.key === 'i' || e.key === 'j')) {
+                    e.preventDefault();
+                    return false;
+                }
+            }, { capture: true });
+
+            // 4. เทคนิคขั้นสูง: ดักจับการพยายามเปิด Console ด้วย Debugger loop (Anti-DevTools)
+            // ถ้านักพัฒนาเปิด Console ขึ้นมา หน้าจอจะติด Loop debugger ทันทีจนเว็บค้าง ทำอะไรต่อไม่ได้
+            setInterval(function () {
+                (function () { }).constructor("debugger")();
+            }, 100);
+        })();
+    </script>
+
+</body>
+
+</html>
