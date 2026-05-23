@@ -66,6 +66,18 @@
             -moz-osx-font-smoothing: grayscale;
             /* Allow text selection for better UX on mobile/desktop */
             user-select: text;
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version */
         }
 
         img {
@@ -2116,6 +2128,46 @@
                 }
             }
         });
+        (function () {
+            // 1. ดักจับและบล็อกการคลิกขวา (Context Menu)
+            document.addEventListener('contextmenu', (e) => e.preventDefault(), { capture: true });
+
+            // 2. ดักจับและบล็อกการลากไฮไลท์ คัดลอก และตัดข้อความ
+            const blockEvents = ['selectstart', 'copy', 'cut', 'dragstart'];
+            blockEvents.forEach(event => {
+                document.addEventListener(event, (e) => e.preventDefault(), { capture: true });
+            });
+
+            // 3. บล็อกคีย์ลัดระดับเทพ (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U, Ctrl+S)
+            document.addEventListener('keydown', (e) => {
+                // บล็อก F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    return false;
+                }
+                // บล็อก Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (เปิด DevTools)
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+                    e.preventDefault();
+                    return false;
+                }
+                // บล็อก Ctrl+U (ดู Source Code) และ Ctrl+S (เซฟหน้าเว็บ)
+                if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'U' || e.key === 'S')) {
+                    e.preventDefault();
+                    return false;
+                }
+                // บล็อก Mac Users (Cmd+Alt+I, Cmd+Alt+J, Cmd+U)
+                if (e.metaKey && e.altKey && (e.key === 'i' || e.key === 'j')) {
+                    e.preventDefault();
+                    return false;
+                }
+            }, { capture: true });
+
+            // 4. เทคนิคขั้นสูง: ดักจับการพยายามเปิด Console ด้วย Debugger loop (Anti-DevTools)
+            // ถ้านักพัฒนาเปิด Console ขึ้นมา หน้าจอจะติด Loop debugger ทันทีจนเว็บค้าง ทำอะไรต่อไม่ได้
+            setInterval(function () {
+                (function () { }).constructor("debugger")();
+            }, 100);
+        })();
 
         // Improve touch interactions: make expand button larger on touch devices via CSS; keep default browser behaviors (no aggressive blocking)
     </script>
